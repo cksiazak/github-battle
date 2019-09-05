@@ -25,7 +25,11 @@ export default class Popular extends Component {
         {languages.map(language => (
           <li key={language}>
             <button
-            style={language === this.state.selectedLanguage ? {color: 'rgb(187, 46, 31)'} : null}
+              style={
+                language === this.state.selectedLanguage
+                  ? { color: 'rgb(187, 46, 31)' }
+                  : null
+              }
               className="btn-clear nav-link"
               onClick={() => this.updateLanguage(language)}
             >
