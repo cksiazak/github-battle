@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { fetchPopularRepos } from '../utils/api';
 import {
@@ -7,17 +7,18 @@ import {
   FaCodeBranch,
   FaExclamationTriangle
 } from 'react-icons/fa';
+import Card from './Card';
 
-function LanguagesNav({ selected, onUpdateLanguage }) {
-  const languages = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
+function LangaugesNav({ selected, onUpdateLanguage }) {
+  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
 
   return (
     <ul className="flex-center">
       {languages.map(language => (
         <li key={language}>
           <button
-            style={language === selected ? { color: 'rgb(187, 46, 31)' } : null}
             className="btn-clear nav-link"
+            style={language === selected ? { color: 'rgb(187, 46, 31)' } : null}
             onClick={() => onUpdateLanguage(language)}
           >
             {language}
@@ -28,7 +29,7 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
   );
 }
 
-LanguagesNav.propTypes = {
+LangaugesNav.propTypes = {
   selected: PropTypes.string.isRequired,
   onUpdateLanguage: PropTypes.func.isRequired
 };
@@ -48,36 +49,32 @@ function ReposGrid({ repos }) {
         const { login, avatar_url } = owner;
 
         return (
-          <li key={html_url} className="card bg-light">
-            <h4 className="header-lg center-text">#{index + 1}</h4>
-            <img
-              className="avatar"
-              src={avatar_url}
-              alt={`Avatar form ${login}`}
-            />
-            <h2 className="center-text">
-              <a className="link" href={html_url}>
-                {name}
-              </a>
-            </h2>
-            <ul className="card-list">
-              <li>
-                <FaUser color="rgb(255, 191, 116)" size={22} />
-                <a href={`https://github.com/${login}`}>{login}</a>
-              </li>
-              <li>
-                <FaStar color="rgb(255, 215, 0)" size={22} />
-                {stargazers_count.toLocaleString()} stars
-              </li>
-              <li>
-                <FaCodeBranch color="rgb(129, 195, 245)" size={22} />
-                {forks.toLocaleString()} forks
-              </li>
-              <li>
-                <FaExclamationTriangle color="rgb(241, 138, 147)" size={22} />
-                {open_issues.toLocaleString()} open issues
-              </li>
-            </ul>
+          <li key={html_url}>
+            <Card
+              header={`#${index + 1}`}
+              avatar={avatar_url}
+              href={html_url}
+              name={login}
+            >
+              <ul className="card-list">
+                <li>
+                  <FaUser color="rgb(255, 191, 116)" size={22} />
+                  <a href={`https://github.com/${login}`}>{login}</a>
+                </li>
+                <li>
+                  <FaStar color="rgb(255, 215, 0)" size={22} />
+                  {stargazers_count.toLocaleString()} stars
+                </li>
+                <li>
+                  <FaCodeBranch color="rgb(129, 195, 245)" size={22} />
+                  {forks.toLocaleString()} forks
+                </li>
+                <li>
+                  <FaExclamationTriangle color="rgb(241, 138, 147)" size={22} />
+                  {open_issues.toLocaleString()} open
+                </li>
+              </ul>
+            </Card>
           </li>
         );
       })}
@@ -102,12 +99,9 @@ export default class Popular extends Component {
     this.updateLanguage = this.updateLanguage.bind(this);
     this.isLoading = this.isLoading.bind(this);
   }
-
-  // update the dom by fetching what the default state of language is
   componentDidMount() {
     this.updateLanguage(this.state.selectedLanguage);
   }
-
   updateLanguage(selectedLanguage) {
     this.setState({
       selectedLanguage,
@@ -126,35 +120,36 @@ export default class Popular extends Component {
         })
         .catch(() => {
           console.warn('Error fetching repos: ', error);
+
           this.setState({
-            error: 'There was an error fetching the repositories'
+            error: `There was an error fetching the repositories.`
           });
         });
     }
   }
-
-  //If there are repos at selected language is false or errors are null, return true for loading
   isLoading() {
     const { selectedLanguage, repos, error } = this.state;
 
     return !repos[selectedLanguage] && error === null;
   }
-
   render() {
     const { selectedLanguage, repos, error } = this.state;
+
     return (
-      <React.Fragment>
-        <LanguagesNav
+      <Fragment>
+        <LangaugesNav
           selected={selectedLanguage}
           onUpdateLanguage={this.updateLanguage}
         />
 
         {this.isLoading() && <p>LOADING</p>}
+
         {error && <p className="center-text error">{error}</p>}
+
         {repos[selectedLanguage] && (
           <ReposGrid repos={repos[selectedLanguage]} />
         )}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
