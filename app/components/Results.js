@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import {battle} from '../utils/api';
 
 export default class Results extends Component {
+  componentDidMount() {
+    const {playerOne, playerTwo} = this.props;
+
+    battle([playerOne, playerTwo])
+    .then((players) => {
+      console.log(players);
+    })
+  }
+
   render() {
     return (
       <div>
@@ -11,7 +20,3 @@ export default class Results extends Component {
     );
   }
 }
-
-Results.propTypes = {
-  prop: PropTypes
-};
