@@ -11,14 +11,14 @@ import {
 } from 'react-icons/fa';
 import Card from './Card';
 
-function PorfileList({ profile }) {
+function ProfileList({ profile }) {
   return (
     <ul className="card-list">
       <li>
         <FaUser color="rgb(239, 115, 115)" size={22} />
         {profile.name}
       </li>
-      {winner.profile.location && (
+      {profile.location && (
         <li>
           <FaCompass color="rgb(144, 115, 255)" size={22} />
           {profile.location}
@@ -42,7 +42,7 @@ function PorfileList({ profile }) {
   );
 }
 
-PorfileList.propTypes = {
+ProfileList.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
