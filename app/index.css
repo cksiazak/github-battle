@@ -254,7 +254,7 @@ li {
 }
 
 .player-inputes .input-dark {
-  color: #DADADA;
+  color: #dadada;
   background: rgba(0, 0, 0, 0.3);
 }
 
@@ -266,4 +266,12 @@ li {
 .light-btn:disabled {
   background: #292929;
   color: #4a4a4a;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.nav li {
+  margin-right: 10px;
 }
