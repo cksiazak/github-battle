@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import Results from './Results';
 import { ThemeConsumer } from '../context/theme';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Instructions() {
   return (
@@ -49,26 +49,21 @@ function Instructions() {
 }
 
 class PlayerInput extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    username: ''
+  };
 
-    this.state = {
-      username: ''
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
 
     this.props.onSubmit(this.state.username);
-  }
-  handleChange(event) {
+  };
+  handleChange = event => {
     this.setState({
       username: event.target.value
     });
-  }
+  };
+
   render() {
     return (
       <ThemeConsumer>
@@ -141,23 +136,18 @@ PlayerPreview.propTypes = {
 };
 
 export default class Battle extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      playerOne: null,
-      playerTwo: null,
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-  }
-  handleSubmit(id, player) {
+  state = {
+    playerOne: null,
+    playerTwo: null
+  };
+  
+  
+  handleSubmit = (id, player) => {
     this.setState({
       [id]: player
     });
   }
-  handleReset(id) {
+  handleReset = (id) => {
     this.setState({
       [id]: null
     });
