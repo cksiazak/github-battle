@@ -46,6 +46,10 @@ function ProfileList({ profile }) {
         <FaUserFriends color="rgb(64, 183, 95)" size={22} />
         {profile.following.toLocaleString()} following
       </li>
+      <li>
+        <FaCode color="#190E4F" size={22} />
+        {profile.public_repos} Repos
+      </li>
     </ul>
   );
 }
